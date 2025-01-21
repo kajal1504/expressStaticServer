@@ -3,12 +3,38 @@ import path from "path"
 
 const app = express()
 
-//static folder (express.s)
+//static folder (express.static() middleware)
+app.use(express.static("E:/Node/staticServer/public"))
+
+//middleware to parse json data(express.json())
+app.use(express.json())
+
+//middleware to parse url encoded data (express.urlencoded() middleware)
+app.use(express.urlencoded({extended:true}))
 
 //API/routing
 app.get("/",(req,res)=>{
     // res.send("Home page")
     res.sendFile("E:/Node/staticServer/index.html")
+})
+
+
+
+//get Api
+app.get("/data",(req,res)=>{
+    res.status(200).send({name:"Ram",age:25})
+})
+
+//Post Api
+app.post("/data",(req,res)=>{
+    console.log(req.headers["content-type"])
+    console.log(req.body);//payload (need to parse the data)
+    res.status(200).send({message:"data received"})
+})
+
+app.post("/urlData",(req,res)=>{
+    console.log(req.body); //url payload
+    res.send({message:"form submitted"})
 })
 
 // app.get("/index.css",(req,res)=>{
@@ -23,19 +49,3 @@ app.listen(7000,"localhost",()=>{
     console.log("server started at http://localhost:7000")
 })
 
-
-// //API
-// app.get("/",(req,res)=>{
-//     // res.send("hello world")
-//     res.sendFile(path.join("E:","Node","staticServer","public","pages","index.html"))
-// })
-// // app.get("/index.css",(req,res)=>{
-// //     res.sendFile(path.join("E:","Node","staticServer","public","css","index.css" ))
-// // })
-
-
-// const PORT=1000;
-// const hostname="127.0.0.1";
-// app.listen(PORT,hostname,()=>{
-//     console.log("server running in"+'http://$(hostname):$(PORT)');
-// })

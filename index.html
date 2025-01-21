@@ -9,6 +9,44 @@
 <body >
     <h1 >welcome to home page</h1>
     <!-- <img src="/image" height="500" width="500"> -->
-     
+     <img src="-5864930645195732307_120.jpg" height="500" width="500">
+     <a href="pages/about.html">About page</a>
+
+     <button id="send">Send Data</button>
+     <button id="get">Get Data</button>
+
+     <form action="/urlData" method="post"> <!--- post method with /urlData path-->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"> <!--name attribute for key of each input-->
+        <br>
+        <label for="Password">Password:</label>
+        <input type="password" id="password" name="password"> <br> <!--name attribute for the key of each input-->
+        <button type="submit">Submit</button>
+
+
+     </form>
+
+     <script>
+        let getBtn = document.getElementById("get")
+        let sendBtn =document.getElementById("send")
+
+        getBtn.addEventListener("click",()=>{
+            //we want something from server
+            fetch("/data").then(res=>res.json()) //default Get method
+            .then(data=>console.log(data))
+            .catch(console.log)
+        })
+
+        sendBtn.addEventListener("click",async ()=>{ //async function
+            let myData={msg:"hello from client"}
+            let response= await ("/data",{
+                method:"POST", //http method
+                headers:{"content-type":"application/json"},//additional info
+                body:JSON.stringify(myData) //request payload
+            })
+            let data = await response.json() //server response data
+            console.log(data);
+        })
+     </script>
 </body>
 </html>
